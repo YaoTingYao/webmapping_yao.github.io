@@ -1,3 +1,11 @@
+/*
+Colorblind safe color palette from colorbrew2.org.
+#7b3294 - dark purple
+#c2a5cf - light purple
+#f7f7f7 - white
+#a6dba0 - light green
+#008837 - dark green
+*/
 body{
   background-color: #b2abd2;
   color: #008837;
