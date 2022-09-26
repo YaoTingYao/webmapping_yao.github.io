@@ -11,7 +11,6 @@
 <BODY>
   <div id="body-container">
     <div id='header'>
-
       <h1>Hello, Welcome to my webpage,
       <script>
       document.write(user_name +'!');
@@ -22,7 +21,7 @@
       <img src="images/profile-picture.jfif" width="500px" height="500px" />
     </div>
     <div id="welcom-text">
-      My name is Yao-Ting Yao!<br>
+      My name is Yao-Ting Yao.<br>
       Welcome to my webpage.<br>
       I am a student in the
       <a href="https://www.clarku.edu/schools/idce/">IDCE Department</a> at
@@ -36,9 +35,16 @@
        <li>Spatial Databases</li>
      </ul>
     </div>
-    <div id="footer">
-      © 2022 by Yao-Ting Yao
-    </div>
+    <div id="copyright">
+      <script>
+    // Use new Date() to create a new date object with the current date and time. Assign to variable today.
+    var today = new Date();
+    // Use .getFullYear() method to return the full year (4 digits) of today. Assign to variable year.
+    var year = today.getFullYear();
+    // Use document.writeln() method to show on the screen.
+    document.writeln("Copyright &copy; " + year);
+       </script>
+     </div>
   </div>
 </BODY>
 </HTML>
