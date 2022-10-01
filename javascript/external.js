@@ -69,14 +69,27 @@ return message
 
 }
 
-function webmap_table(){
-    document.write("<table width=100%>")
-    for(var row = 0; row <  2; row++){
-        document.write("<tr>");
-        for(var column = 0; column < 3; column++){
-            document.write("<td>"+row+","+column+"</td>");
-        }
-    document.write('</tr>')
-    }
-    document.write('</table>')
-}
+
+var webmaps =
+[
+    ["National Risk Index for Natural Hazards",
+    "https://hazards.fema.gov/nri/map",
+    "Visualizes natural hazard risk metrics developed by FEMA. The primary purpose to identifies communities most at risk to 18 natural hazards in county and census tract level. It includes data about expected annual losses from natural hazards, social vulnerability and community resilience."
+    ],
+    ["Active US Wildfires with Smoke Forecasts",
+    "https://storymaps.esri.com/stories/usa-wildfires/",
+    "Current fires and associated smoke forecasts developed by Esri.It designs for general use and helps people to check the changes of magnitude through timeline within a day. GIS functionality is smoke density map. "
+    ],
+];
+
+	function webmap_table(){
+	    document.write("<table width=100%>")
+	    for(var row = 0; row <webmaps.length; row++){
+	        document.write("<tr>");
+	        for(var column = 0; column <webmaps[0].length; column++){
+	            document.write("<td>"+webmaps[row][column]+"</td>");
+	        }
+	    document.write('</tr>')
+	    }
+	    document.write('</table>')
+	}
