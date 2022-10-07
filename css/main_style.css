@@ -21,7 +21,7 @@ h1{
   background-color:#f7f7f7;
   max-width: 1000px;
   margin: auto;
-  height: 150vh;
+  height: 130vh;
   border: 2px solid #f7f7f7;
   border-radius: 25px;
   overflow: hidden;
@@ -51,9 +51,15 @@ body{
 }
 
 #webmap-reviews{
-    text-align: left;
-    font-size: 25px;
+    text-align: center;
+    font-size: 20px;
     position: relative;
+      }
+
+#form{
+        text-align: center;
+        font-size: 15px;
+        position: relative;
       }
 
 #copyright {

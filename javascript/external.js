@@ -37,3 +37,13 @@ function webmap_table(){
     }
 	    document.write('</table>')
 	}
+
+  window.onload=function() { // the page has loaded - anonymous function
+    document.getElementById("button").onclick=function() { // anonymous function
+      var  a=document.getElementById("length").value; // using commas to separate vars
+      var  b=document.getElementById("width").value;
+      var output = document.getElementById("output");
+
+      output.innerHTML = a * b;
+    }
+  }
