@@ -17,9 +17,15 @@
 // When the user clicks the marker, an info window opens.
 
 function initialize() {
+<<<<<<< HEAD
   var myLatlng = new google.maps.LatLng(23.470067355523927, 120.95744559014544);
   var mapOptions = {
     zoom: 8,
+=======
+  var myLatlng = new google.maps.LatLng(-25.363,131.044);
+  var mapOptions = {
+    zoom: 4,
+>>>>>>> 6b953b3dbfe8e06504f871e135ea085c4c508697
     center: myLatlng
   };
 
@@ -28,6 +34,7 @@ function initialize() {
   var contentString = '<div id="content">'+
       '<div id="siteNotice">'+
      '</div>'+
+<<<<<<< HEAD
       '<h1 id="firstHeading" class="firstHeading">Jade Mountain</h1>'+
       '<div id="bodyContent">'+
       '<p><b>Jade Mountain</b>, also referred to as <b>Yu Shan</b>,  the highest mountain in Taiwan at 3,952 m (12,966 ft)' +
@@ -38,6 +45,23 @@ function initialize() {
       '<p>Attribution: Jade Mountain (Yu Shan),<a href="https://en.wikipedia.org/wiki/Yu_Shan">'+
       'wikipedia</a> '+
       '(last visited January 22, 2010).</p>'+
+=======
+      '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+      'sandstone rock formation in the southern part of the '+
+      'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+      'south west of the nearest large town, Alice Springs; 450&#160;km '+
+      '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+      'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+      'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+      'Aboriginal people of the area. It has many springs, waterholes, '+
+      'rock caves and ancient paintings. Uluru is listed as a World '+
+      'Heritage Site.</p>'+
+      '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+      'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+      '(last visited June 22, 2009).</p>'+
+>>>>>>> 6b953b3dbfe8e06504f871e135ea085c4c508697
       '</div>'+
       '</div>';
 
@@ -47,12 +71,21 @@ function initialize() {
   }
   );
 
+<<<<<<< HEAD
 
 
   var marker = new google.maps.Marker({
       position: myLatlng,
       map: map,
       title: 'Jade Mountain'
+=======
+  
+  
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: 'Uluru (Ayers Rock)'
+>>>>>>> 6b953b3dbfe8e06504f871e135ea085c4c508697
   });
   google.maps.event.addListener(marker, 'click', function() {
     infowindow.open(map,marker);
@@ -66,4 +99,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
   <body>
     <div id="map-canvas"></div>
   </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 6b953b3dbfe8e06504f871e135ea085c4c508697

@@ -14,9 +14,15 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script>
 function initialize() {
+<<<<<<< HEAD
   var myLatlng = new google.maps.LatLng(23.470067355523927, 120.95744559014544);
   var mapOptions = {
     zoom: 7,
+=======
+  var myLatlng = new google.maps.LatLng(-25.344,131.036);
+  var mapOptions = {
+    zoom: 4,
+>>>>>>> 6b953b3dbfe8e06504f871e135ea085c4c508697
     center: myLatlng
   }
   var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -24,7 +30,11 @@ function initialize() {
   var marker = new google.maps.Marker({
       position: myLatlng,
       map: map,
+<<<<<<< HEAD
       title: 'Hello! This is Taiwan! A beauty island on Pacific Ocean :)'
+=======
+      title: 'Hello World!'
+>>>>>>> 6b953b3dbfe8e06504f871e135ea085c4c508697
   });
 }
 
@@ -35,4 +45,8 @@ function initialize() {
   <body>
     <div id="map-canvas"></div>
   </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 6b953b3dbfe8e06504f871e135ea085c4c508697
