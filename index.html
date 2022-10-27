@@ -1,24 +1,27 @@
 <!DOCTYPE HTML>
 <HTML>
+
 <HEAD>
-<meta charset="utf-8" I>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="      crossorigin=""/>
+  <meta charset="utf-8" I>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="      crossorigin=""/>
 <!-- Make sure you put this AFTER Leaflet's CSS -->
-<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
-     integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
-     crossorigin=""></script>
-<script src=”javascript/secret_keys.js”></script>
+  <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+       integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+       crossorigin=""></script>
+  <script src=”javascript/secret_keys.js”></script>
 
   <TITLE> Yao-Ting Yao</TITLE>
 <!--All styling for this HTML document are contained in this external css dile-->
   <link rel="stylesheet" type="text/css" href="css/main_style.css">
-  <div>
+  <link rel="stylesheet" type="text/css" href="css/map_style.css" >
   <script src="javascript/external.js"></script>
-  <script>
-	document.write(welcome());
-	</script>
 
+  <div>
+    <script>
+	    document.write(welcome());
+	  </script>
   </div>
+
 </HEAD>
 
 <BODY>
@@ -76,6 +79,22 @@
             accessToken:'pk.eyJ1IjoieWFvdGluZyIsImEiOiJjbDlpbGh4d2MwbWxlM29tZXV6OWY2eGhhIn0.ynGpNmV2r51q1n9kkj7jnQ',
         }).addTo(mymap);
 
+        var marker = L.marker([51.5, -0.09]).addTo(mymap);
+        var circle = L.circle([51.508, -0.11],{
+          color:'red',
+          fillColor:'#f03',
+          fillOpacity:0.5,
+          radius:500
+        }).addTo(mymap);
+
+        var polygon = L.polygon([[51.509, -0.08],[51.503,-0.06],[51.51,-0.047]]).addTo(mymap);
+        marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+        circle.bindPopup("I am a circle.");
+        polygon.bindPopup("I am a polygon.");
+
+        marker.on('click',function(e){mymap.setView(e.latlng, 14);});
+        circle.on('click',function(e){mymap.setView(e.latlng, 13);});
+        polygon.on('click',function(e){mymap.setView(e.latlng, 13);});
 
       </script>
     </div>
