@@ -70,14 +70,18 @@
     <div id="mapid" style="width: 600px; height: 400px; margin: auto;">
 
       <script>
-
-        var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+/*
+        var mymap = L.map('mapid');
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',{
             maxZoom: 18,
-            id: 'mapbox/streets-v11',
+            id: 'mapbox/satellite-streets-v11',
             accessToken:'pk.eyJ1IjoieWFvdGluZyIsImEiOiJjbDlpbGh4d2MwbWxlM29tZXV6OWY2eGhhIn0.ynGpNmV2r51q1n9kkj7jnQ',
         }).addTo(mymap);
+*/
+  var mymap = L.map('mapid');
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(mymap);
+
 
         var marker = L.marker([51.5, -0.09]).addTo(mymap);
         var circle = L.circle([51.508, -0.11],{
@@ -95,6 +99,23 @@
         marker.on('click',function(e){mymap.setView(e.latlng, 14);});
         circle.on('click',function(e){mymap.setView(e.latlng, 13);});
         polygon.on('click',function(e){mymap.setView(e.latlng, 13);});
+
+        var ZoomViewer = L.Control.extend({
+          onAdd: function(){
+            var gauge = L.DomUtil.create('div');
+            gauge.style.width = '200px';
+            gauge.style.background = 'rgba(225,225,225,0.5)';
+            gauge.style.textAlign = 'left';
+            mymap.on('zoomstart zoom zoomend',function(ev){
+              gauge.innerHTML = 'Zoom level: '+mymap.getZoom();
+            })
+            return gauge;
+          }
+        });
+
+        (new ZoomViewer).addTo(mymap);
+
+        mymap.setView([0,0],1);
 
       </script>
     </div>
