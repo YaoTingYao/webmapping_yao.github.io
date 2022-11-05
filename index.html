@@ -4,21 +4,31 @@
 <HEAD>
   <meta charset="utf-8" I>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"      integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="      crossorigin=""/>
-<!-- Make sure you put this AFTER Leaflet's CSS -->
+
   <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
        integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
        crossorigin=""></script>
-  <script src=”javascript/secret_keys.js”></script>
+  <script src="javascript/secret_keys.js"></script>
 
   <TITLE> Yao-Ting Yao</TITLE>
-<!--All styling for this HTML document are contained in this external css dile-->
+
   <link rel="stylesheet" type="text/css" href="css/main_style.css">
   <link rel="stylesheet" type="text/css" href="css/map_style.css">
   <script src="javascript/external.js"></script>
-//Geocoder api
+  <script src="javascript/leaflet-providers.js"></script>
+
+<!-- Geocoder api -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/css/L.Control.OpenCageData.Search.min.css" />
   <script src="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/js/L.Control.OpenCageSearch.min.js"></script>
   <script src="javascript/map.js"></script>
+
+<!-- Plug in switchBasemap-->
+<link rel="stylesheet" type="text/css" href="css/L.switchBasemap.css">
+<script src="javascript/L.switchBasemap.js"></script>
+
+<!-- Plug in FullScreen-->
+<link rel="stylesheet" type="text/css" href="css/Control.FullScreen.css">
+<script src="javascript/Control.FullScreen.js"></script>
 
   <div>
     <script>
@@ -65,7 +75,6 @@
         Width:   <input id="width"><br />
         <p><b>Rectangle Area:</b></p><p id="output"><b></b></p>
         <button type='button'id="button"> Calculate! </buttom>
-
         </form>
     </div>
 
@@ -74,9 +83,10 @@
     <div id="mapid" style="width: 600px; height: 400px; margin: auto;">
 
       <script>
-       web_map ()
+       web_map()
       </script>
     </div>
+
 <div>
 <li><a href="04_Choroplet map in Leaf_Legend.html" class="button">Open up Webmap</a></li>
 </div>
