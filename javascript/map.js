@@ -20,6 +20,46 @@ mymap.on('exitFullscreen', function(){
 if(window.console) window.console.log('exitFullscreen');
 });
 
+// Leaflet LimitZoom: Limit leaflet map zoom to a list of variants
+          L.Map.mergeOptions({
+          	zooms:[1, 3, 5, 7, 9, 11, 13, 15, 17] // array of integers
+          });
+
+          L.Map.include({
+          	_limitZoom: function (zoom) {
+          		var zooms = this.options.zooms;
+          		if (!zooms || !('length' in zooms) || !zooms.length) {
+          			var min = this.getMinZoom(),
+          			    max = this.getMaxZoom(),
+          			    snap = L.Browser.any3d ? this.options.zoomSnap : 1;
+          			if (snap) {
+          				zoom = Math.round(zoom / snap) * snap;
+          			}
+          			return Math.max(min, Math.min(max, zoom));
+          		} else {
+          			var z, d = 100, i, dist;
+          			var dz = -1, dd = 100, dir = zoom - this._zoom;
+          			var snap = L.Browser.any3d ? this.options.zoomSnap : 1;
+          			if (snap) {
+          				zoom = Math.round(zoom / snap) * snap;
+          			}
+          			for (i = 0; i < zooms.length; i++) {
+          				dist = Math.abs(zooms[i] - zoom);
+          				if (dist < d) {
+          					z = zooms[i];
+          					d = dist;
+          				}
+          				if (dir * (zooms[i] - this._zoom) > 0 && dist < dd) {
+          					dz = zooms[i];
+          					dd = dist;
+          				}
+          			}
+          			return dz < 0 ? z : dz;
+          		}
+          	}
+          });
+
+
 L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
   attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   apikey: '164fc37fcea141d29e8660c837638526',
