@@ -59,12 +59,35 @@ if(window.console) window.console.log('exitFullscreen');
           	}
           });
 
+          // L.switchBasemap
+          new L.basemapsSwitcher([
+            {
+              layer: L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
+              attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              apikey: '164fc37fcea141d29e8660c837638526',
+              maxZoom: 22
+              }).addTo(mymap), //DEFAULT MAP
+              icon: 'images/img1.PNG',
+              name: 'Map one'
+            },
+            {
+              layer: L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',{
+                            maxZoom: 18,
+                            id: 'mapbox/satellite-streets-v11',
+                            accessToken:'pk.eyJ1IjoieWFvdGluZyIsImEiOiJjbDlpbGh4d2MwbWxlM29tZXV6OWY2eGhhIn0.ynGpNmV2r51q1n9kkj7jnQ',
+                        }),
+              icon: 'images/img4.PNG',
+              name: 'Map two'
+            },
+            {
+              layer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              }),
+              icon: 'images/img3.PNG',
+              name: 'Map three'
+            },
+          ], { position: 'bottomleft' }).addTo(mymap);
 
-L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
-  attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  apikey: '164fc37fcea141d29e8660c837638526',
-  maxZoom: 22
-  }).addTo(mymap);
 
 //openCageSearch
   var options = {
