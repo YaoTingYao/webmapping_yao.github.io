@@ -8,9 +8,12 @@ zoom: 5,
 fullscreenControl: true,
 fullscreenControlOptions: { // optional
   title:"Show me the fullscreen !",
-  titleCancel:"Exit fullscreen mode"
+  titleCancel:"Exit fullscreen mode",
+  worldMiniMapControl: true
 }
 });
+
+var worldMiniMap = L.control.worldMiniMap({position: 'bottomright', style: {opacity: 0.9, borderRadius: '0px', backgroundColor: 'lightblue'}}).addTo(mymap);
 
 // detect fullscreen toggling
 mymap.on('enterFullscreen', function(){
