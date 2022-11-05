@@ -1,4 +1,5 @@
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip{
     background: yellow;
+    text-align: center;
 }

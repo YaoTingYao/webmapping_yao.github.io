@@ -1,5 +1,24 @@
 function web_map (){
-  var mymap = L.map('mapid');
+
+//full screen
+  var mymap = L.map('mapid', {
+tap: false,
+center: new L.LatLng(48.5, -4.5),
+zoom: 5,
+fullscreenControl: true,
+fullscreenControlOptions: { // optional
+  title:"Show me the fullscreen !",
+  titleCancel:"Exit fullscreen mode"
+}
+});
+
+// detect fullscreen toggling
+mymap.on('enterFullscreen', function(){
+if(window.console) window.console.log('enterFullscreen');
+});
+mymap.on('exitFullscreen', function(){
+if(window.console) window.console.log('exitFullscreen');
+});
 
 L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
   attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
