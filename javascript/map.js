@@ -13,6 +13,13 @@ fullscreenControlOptions: { // optional
 }
 });
 
+L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
+attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+apikey: '164fc37fcea141d29e8660c837638526',
+maxZoom: 22
+}).addTo(mymap);
+
+
 var worldMiniMap = L.control.worldMiniMap({position: 'bottomright', style: {opacity: 0.9, borderRadius: '0px', backgroundColor: 'lightblue'}}).addTo(mymap);
 
 // detect fullscreen toggling
