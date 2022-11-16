@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"›
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"›
+        <title>Tile Layers</title>
+        <style>
+          html,
+          body,
+          #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+          }
+        </style>
+        <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
+        <script src="https://js.arcgis.com/4.21/"></script>
+
+        <script>
+        //AMD loader
+        require([
+          "esri/Map",
+          "esri/views/MapView",
+          "esri/layers/TileLayer",
+        //Callback function
+      ], function(Map, MapView, TileLayer){
+
+        // esriConfig.apiKey = "AAPKbda51c90240f45e5833de5811afbc28a638FNfl0UaQU4cyi__rh7RFlkAthEwY-oPEVucQShERIBTr7Wv0sydZwbBJUOJAK";
+
+        //Creates a new Map with a "streets" basemap
+            var map = new Map({
+                basemap: "oceans",
+                layers: [TransportationLayer]
+        });
+
+        // Create a MapView instance (for 2D viewing)
+        var view = new MapView({
+            container: "viewDiv", // References the ID of a DOM element
+            map: map, // References a Map instance
+            zoom: 10, //Zoom level
+            center: [-118.2095, 34.0866]// Center of view
+            });
+
+        // Add layer to map
+        var TransportationLayer = new TileLayer({
+        // URL points to a cached tiled map service hosted on ArcGIS Server
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
+    });
+
+});
+
+
+
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
