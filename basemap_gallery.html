@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"›
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"›
+        <title>Basemap Gallery</title>
+        <style>
+          html,
+          body,
+          #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+          }
+        </style>
+        <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
+        <script src="https://js.arcgis.com/4.21/"></script>
+
+        <script>
+        //AMD loader
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/TileLayer",
+            "esri/layers/MapImageLayer",
+            "esri/widgets/BasemapGallery"
+        //Callback function
+      ], function(Map, MapView, TileLayer, MapImageLayer,BasemapGallery){
+        //Creates a new Map with a "streets" basemap
+            var map = new Map({
+                basemap: "dark-gray",
+                layers: [TransportationLayer]
+        });
+
+        // Create a MapView instance (for 2D viewing)
+        var view = new MapView({
+            container: "viewDiv", // References the ID of a DOM element
+            map: map, // References a Map instance
+            zoom: 10, //Zoom level
+            center: (-118.2095, 34.0866)// Center of view
+            });
+
+        // Add layer to map
+        var TransportationLayer = new TileLayer({
+        // URL points to a cached tiled map service hosted on ArcGIS Server
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
+    });
+
+    var CitiesRenderer = {
+        type: "simple", // autocasts as new SimpleRenderer()
+        symbol: {
+            type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+            size: 3,
+            color: "yellow",
+            style: "circle",
+            outline: {
+                width: 1,
+                color: "yellow"}
+     },
+      label: "Cities"
+    };
+
+    var CitiesLayer = new MapImageLayer({
+ url: "https://sampleserver6.arcgisonline.coo/arcgis/rest/services/USA/MapServer",
+ sublayers: [
+     {
+          id: 0,
+          renderer: CitiesRenderer,
+          opacity: 0.4
+       }
+     ]
+   });
+   map.add(CitiesLayer);
+
+   view.on("click", eventHandler);
+   function eventHandler(event){
+     console.log("You just triggered a 'click' event!");
+     alert("You just triggered a 'click' event!")
+   }
+
+   var basemapGallery = new BasemapGallery({
+     view: view
+   });
+
+   view.ui.add(basemapGallery, {
+     position: "top-right"
+   });
+
+});
+
+
+
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
