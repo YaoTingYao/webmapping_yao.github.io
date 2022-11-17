@@ -26,9 +26,14 @@
         //Callback function
       ], function(Map, MapView, TileLayer){
 
-        // esriConfig.apiKey = "AAPKbda51c90240f45e5833de5811afbc28a638FNfl0UaQU4cyi__rh7RFlkAthEwY-oPEVucQShERIBTr7Wv0sydZwbBJUOJAK";
+        // Add tilelayer to map
+        var TransportationLayer = new TileLayer({
+        // URL points to a cached tiled map service hosted on ArcGIS Server
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
+    });
 
-        //Creates a new Map with a "streets" basemap
+
+        //Creates a new Map with a "oceans" basemap
             var map = new Map({
                 basemap: "oceans",
                 layers: [TransportationLayer]
@@ -42,11 +47,6 @@
             center: [-118.2095, 34.0866]// Center of view
             });
 
-        // Add layer to map
-        var TransportationLayer = new TileLayer({
-        // URL points to a cached tiled map service hosted on ArcGIS Server
-    url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
-    });
 
 });
 
