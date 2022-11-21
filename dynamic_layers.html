@@ -34,27 +34,14 @@
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
     });
 
-        //Creates a new Map with a "dark-gray" basemap
-        var map = new Map({
-            basemap: "dark-gray",
-            layers: [TransportationLayer]
-    });
 
-
-        // Create a MapView instance (for 2D viewing)
-        var view = new MapView({
-            container: "viewDiv", // References the ID of a DOM element
-            map: map, // References a Map instance
-            zoom: 10, //Zoom level
-            center: (-118.2095, 34.0866)// Center of view
-            });
 
       // MapImageLayer allows to display and analyze data from sublayers defined in a map service, exporting images instead of features.
       // Renderers define how to visually represent each feature
       // Set a basic symbol on a layer to visualize all features the same way
         var CitiesRenderer = {
         type: "simple", // autocasts as new SimpleRenderer()
-        //all features the same yellow circle symbol
+      //all features the same yellow circle symbol
         symbol: {
             type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
             size: 3,
@@ -78,7 +65,21 @@
        }
      ]
    });
-   map.add(CitiesLayer);
+
+   //Creates a new Map with a "dark-gray" basemap
+   var map = new Map({
+       basemap: "dark-gray",
+       layers: [TransportationLayer, CitiesLayer]
+});
+
+
+   // Create a MapView instance (for 2D viewing)
+   var view = new MapView({
+       container: "viewDiv", // References the ID of a DOM element
+       map: map, // References a Map instance
+       zoom: 10, //Zoom level
+       center: [-118.2095, 34.0866]// Center of view
+       });
 
 });
 
