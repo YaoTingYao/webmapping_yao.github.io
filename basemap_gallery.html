@@ -24,31 +24,23 @@
             "esri/views/MapView",
             "esri/layers/TileLayer",
             "esri/layers/MapImageLayer",
-            "esri/widgets/BasemapGallery"
+            "esri/widgets/BasemapGallery",
         //Callback function
       ], function(Map, MapView, TileLayer, MapImageLayer,BasemapGallery){
-        //Creates a new Map with a "streets" basemap
-            var map = new Map({
-                basemap: "dark-gray",
-                layers: [TransportationLayer]
-        });
 
-        // Create a MapView instance (for 2D viewing)
-        var view = new MapView({
-            container: "viewDiv", // References the ID of a DOM element
-            map: map, // References a Map instance
-            zoom: 10, //Zoom level
-            center: (-118.2095, 34.0866)// Center of view
-            });
-
-        // Add layer to map
+        // Add tilelayer to map
+        //The TileLayer allows work with a cached map service exposed by the ArcGIS Server REST API and add it to a Map as a tile layer. Because they are cached, tiled layers render faster than MapImageLayers.
         var TransportationLayer = new TileLayer({
         // URL points to a cached tiled map service hosted on ArcGIS Server
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
     });
 
-    var CitiesRenderer = {
+      // MapImageLayer allows to display and analyze data from sublayers defined in a map service, exporting images instead of features.
+      // Renderers define how to visually represent each feature
+      // Set a basic symbol on a layer to visualize all features the same way
+        var CitiesRenderer = {
         type: "simple", // autocasts as new SimpleRenderer()
+      //all features the same yellow circle symbol
         symbol: {
             type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
             size: 3,
@@ -61,8 +53,9 @@
       label: "Cities"
     };
 
+   //The sublayers property of a MapImageLayer allows to dynamically set renderers on the fly for layers in a map service.
     var CitiesLayer = new MapImageLayer({
- url: "https://sampleserver6.arcgisonline.coo/arcgis/rest/services/USA/MapServer",
+ url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer",
  sublayers: [
      {
           id: 0,
@@ -71,21 +64,39 @@
        }
      ]
    });
-   map.add(CitiesLayer);
 
-   view.on("click", eventHandler);
-   function eventHandler(event){
-     console.log("You just triggered a 'click' event!");
-     alert("You just triggered a 'click' event!")
-   }
+   //Creates a new Map with a "dark-gray" basemap
+   var map = new Map({
+       basemap: "dark-gray",
+       layers: [TransportationLayer, CitiesLayer]
+});
 
-   var basemapGallery = new BasemapGallery({
-     view: view
+
+   // Create a MapView instance (for 2D viewing)
+   var view = new MapView({
+       container: "viewDiv", // References the ID of a DOM element
+       map: map, // References a Map instance
+       zoom: 10, //Zoom level
+       center: [-118.2095, 34.0866]// Center of view
+       });
+    //Registers an event "click" handler
+    view.on("click", eventHandler);
+    //Create eventHandler function. Shows console.log in alert/
+    function eventHandler(event){
+         console.log("You just triggered a 'click' event!");
+         alert("You just triggered a 'click' event!");
+       }
+
+    // Add BasemapGallery widget to UI.
+    var basemapGallery = new BasemapGallery({
+         view: view
    });
+   //
+    view.ui.add(basemapGallery, {
+         position: "top-right"
+       });
 
-   view.ui.add(basemapGallery, {
-     position: "top-right"
-   });
+
 
 });
 
