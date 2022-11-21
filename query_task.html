@@ -156,6 +156,7 @@
          position: "top-right"
        });
 
+       //Set up population layer
        var popUrl = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/CalifornizCities/FeatureServer/0";
         var popupTemplate = {
           title:"{City}",
@@ -181,6 +182,7 @@
       "<br><b>Longitude:</b>{Longitude}"
     };
 
+     //Set up spatial query
      var resultsLayer = new GraphicsLayer();
      var qTask = new QueryTask({
        url:popUrl
