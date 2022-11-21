@@ -28,7 +28,6 @@
           .esri-popup .esri-popup-body .esri-popup-content {
             font-size:14px;
           }
-
         </style>
         <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
         <script src="https://js.arcgis.com/4.21/"></script>
@@ -50,28 +49,20 @@
             "dojo/domReady!",
         //Callback function
       ], function(Map, MapView, TileLayer, MapImageLayer,BasemapGallery,GraphicsLayer,QueryTask,Query,arrayUtils,dom,on){
-        //Creates a new Map with a "streets" basemap
-            var map = new Map({
-                basemap: "dark-gray",
-                layers: [TransportationLayer]
-        });
 
-        // Create a MapView instance (for 2D viewing)
-        var view = new MapView({
-            container: "viewDiv", // References the ID of a DOM element
-            map: map, // References a Map instance
-            zoom: 10, //Zoom level
-            center: (-118.2095, 34.0866)// Center of view
-            });
-
-        // Add layer to map
+        // Add tilelayer to map
+        //The TileLayer allows work with a cached map service exposed by the ArcGIS Server REST API and add it to a Map as a tile layer. Because they are cached, tiled layers render faster than MapImageLayers.
         var TransportationLayer = new TileLayer({
         // URL points to a cached tiled map service hosted on ArcGIS Server
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
     });
 
-    var CitiesRenderer = {
+      // MapImageLayer allows to display and analyze data from sublayers defined in a map service, exporting images instead of features.
+      // Renderers define how to visually represent each feature
+      // Set a basic symbol on a layer to visualize all features the same way
+        var CitiesRenderer = {
         type: "simple", // autocasts as new SimpleRenderer()
+      //all features the same yellow circle symbol
         symbol: {
             type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
             size: 3,
@@ -84,8 +75,9 @@
       label: "Cities"
     };
 
+   //The sublayers property of a MapImageLayer allows to dynamically set renderers on the fly for layers in a map service.
     var CitiesLayer = new MapImageLayer({
- url: "https://sampleserver6.arcgisonline.coo/arcgis/rest/services/USA/MapServer",
+ url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer",
  sublayers: [
      {
           id: 0,
@@ -94,87 +86,110 @@
        }
      ]
    });
-   map.add(CitiesLayer);
 
-   view.when(function(){
-     view.ui.add("optionsDiv","bottom-right");
-     on(dom.byId("doBtn"),"click",doQuery);
-   });
+   //Creates a new Map with a "dark-gray" basemap
+   var map = new Map({
+       basemap: "dark-gray",
+       layers: [TransportationLayer, CitiesLayer]
+});
 
-   var attributeName = dom.byId("attSelect");
-   var expressionSign = dom.byId("signSelect");
-   var value = dom.byId("valSelect");
 
-   function doQuery(){
-     resultsLayer.removeAll();
-     params.where = attributeName.value + expressionSign.value +value.value;
-     qTask.excute(params).then(getResults).catch(promiseRejected);
-   }
-
-   function getResults (response){
-     var popResults = arrayUtils.map(response.features,function(feature){
-       feature.popupTemplate = popTemplate;
-       return feature;
-     });
-
-     resultsLayer.addMany(popResults);
-
-     view.goTo(popResults).then(function(){
-       view.popup.open({
-         features:popResults,
-         featureMenuOpen:true,
-         updateLocationEnabled:true
+   // Create a MapView instance (for 2D viewing)
+   var view = new MapView({
+       container: "viewDiv", // References the ID of a DOM element
+       map: map, // References a Map instance
+       zoom: 10, //Zoom level
+       center: [-118.2095, 34.0866]// Center of view
        });
+
+    // This function will execute once the promise is resolved
+    // Add query to ui
+    view.when(function(){
+      view.ui.add("optionsDiv","bottom-right");
+      on(dom.byId("doBtn"),"click",doQuery);
+    });
+
+    // Use dom.byId to select "attSelect", "signSelect", "valSelect"
+    var attributeName = dom.byId("attSelect");
+    var expressionSign = dom.byId("signSelect");
+    var value = dom.byId("valSelect");
+
+    // Create function doQuery
+    function doQuery(){
+      resultsLayer.removeAll();
+      params.where = attributeName.value + expressionSign.value +value.value;
+      qTask.execute(params).then(getResults).catch(promiseRejected);
+    }
+    // Create function getResults
+    function getResults (response){
+      var popResults = arrayUtils.map(response.features,function(feature){
+        feature.popupTemplate = popTemplate;
+        return feature;
+      });
+
+     // add an array of layers to layers collection using addMany
+      resultsLayer.addMany(popResults);
+
+     //Sets the view to a given target.
+      view.goTo(popResults).then(function(){
+        view.popup.open({
+          features:popResults,
+          featureMenuOpen:true,
+          updateLocationEnabled:true
+        });
+      });
+
+      // Use dom.byId
+      dom.byId("printResults").innerHTML = popResults.length+"results found!";
+    }
+
+     //The details object provides additional details specific to the error, giving more information about why the error was raised.
+    function promiseRejected(error){
+      console.error("Promise rejected: ", error.message);
+    }
+
+    // Add BasemapGallery widget to UI.
+    var basemapGallery = new BasemapGallery({
+         view: view
+   });
+    view.ui.add(basemapGallery, {
+         position: "top-right"
+       });
+
+       var popUrl = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/CalifornizCities/FeatureServer/0";
+        var popupTemplate = {
+          title:"{City}",
+          fieldInfos:[{
+          fieldName:"Population",
+          label:"Population",
+          format:{
+            places:0,
+            digitSeperator:true
+          }
+        },{
+          fieldName:"Household",
+          label:"Household",
+          format:{
+          places:0,
+          digitSeperator:true
+        }
+      }],
+      content:
+      "<b>Population:"+"</b>{Population}"+
+      "<br><b>Households:</b>{Households}"+
+      "<br><b>Latitude:</b>{Latitude}"+
+      "<br><b>Longitude:</b>{Longitude}"
+    };
+
+     var resultsLayer = new GraphicsLayer();
+     var qTask = new QueryTask({
+       url:popUrl
+     });
+     var params = new Query({
+       returnGeometry:true,
+       outFields:["*"]
      });
 
-     dom.byId("printResults").innerHTML = popResults.length+"results found!";
-   }
-
-   function promiseRejected(error){
-     console.error("Promise rejected:",error.message);
-   }
-
-   var basemapGallery = new BasemapGallery({
-     view: view
-   });
-
-   view.ui.add(basemapGallery, {
-     position: "top-right"
-   });
-
-   var popUrl = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/CalifornizCities/FeatureServer/0";
-    var popupTemplate = {
-      title:"{City}",
-      fieldInfos:[{
-      fieldName:"Population",
-      label:"Population",
-      format:{
-        places:0,
-        digitSeperator:true
-      }
-    },{
-      fieldName:"Household",
-      label:"Household",
-      format:{
-      places:0,
-      digitSeperator:true
-    }
-  }],
-  content:
-  "<b>Population:"+"</b>{Population}"+
-  "<br><b>Households:</b>{Households}"+
-  "<br><b>Latitude:</b>{Latitude}"+
-  "<br><b>Longitude:</b>{Longitude}"
-};
-
- var resultsLayer = new GraphicsLayer();
- var qTask = new QueryTask({
-   url:popUrl
- });
- var params = new Query({
-   returnGeometry:true,
-   outFields:["*"]
- });
 
 
 
@@ -187,30 +202,30 @@
 
 <body>
     <div id="viewDiv"></div>
-      <div class="esri-widget" id="optionsDiv">
-      <h2>Cities in California</h2>
-      <select class="esri-widget" id="attSelect">
-        <option value="Population" selected>Households</option>
-      </select>
-      <select class="esri-widget" id="signSelect">
-        <option value=">"> is greater than</option>
-        <option value="<"> is less than</option>
-      </select>
-      <select class="esri-widget" id="valSelect">
-        <option value="10000">10,000</option>
-        <option value="50000">50,000</option>
-        <option value="100000">100,000</option>
-        <option value="150000">150,000</option>
-        <option value="200000">200,000</option>
-      </select>
-      <br>
-      <br>
-      <button class="esri-widget" id="doBtn">Do Query</button>
-      <br>
-      <p><span id="printResults"></span></p>
-    </div>
 
-
+   <!-- Add "attSelect", "signSelect" and "valSelect" option of selection and button for Do Query  -->
+    <div class="esri-widget" id="optionsDiv">
+    <h2>Cities in California</h2>
+    <select class="esri-widget" id="attSelect">
+      <option value="Population" selected>Households</option>
+    </select>
+    <select class="esri-widget" id="signSelect">
+      <option value=">"> is greater than</option>
+      <option value="<"> is less than</option>
+    </select>
+    <select class="esri-widget" id="valSelect">
+      <option value="10000">10,000</option>
+      <option value="50000">50,000</option>
+      <option value="100000">100,000</option>
+      <option value="150000">150,000</option>
+      <option value="200000">200,000</option>
+    </select>
+    <br>
+    <br>
+    <button class="esri-widget" id="doBtn">Do Query</button>
+    <br>
+    <p><span id="printResults"></span></p>
+  </div>
 </body>
 
 </html>
