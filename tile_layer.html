@@ -27,6 +27,7 @@
       ], function(Map, MapView, TileLayer){
 
         // Add tilelayer to map
+        //The TileLayer allows work with a cached map service exposed by the ArcGIS Server REST API and add it to a Map as a tile layer. Because they are cached, tiled layers render faster than MapImageLayers.
         var TransportationLayer = new TileLayer({
         // URL points to a cached tiled map service hosted on ArcGIS Server
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
